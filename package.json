@@ -1,0 +1,11 @@
+{
+  "name": "blokkur",
+  "version": "0.0.1",
+  "description": "Music API creative exercise",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Joe Andrews",
+  "license": "ISC"
+}

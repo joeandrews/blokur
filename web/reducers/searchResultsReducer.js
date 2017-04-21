@@ -12,6 +12,10 @@ const searchResultsReducer = (state = initialState, action) => {
 		case 'RECEIVE_SEARCH_RESULTS':{
 			return action.data;
 		}
+
+		case 'ERROR_RECEIVING_SEARCH_RESULTS':{
+			return action.data;
+		}
 		default:
 			return state;
 	}

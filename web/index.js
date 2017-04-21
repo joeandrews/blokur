@@ -22,6 +22,7 @@ import {
 from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import BlokurApp from './reducers/index';
+import './styles.scss';
 let store = createStore(BlokurApp, {}, applyMiddleware(
 	thunkMiddleware
 ));

@@ -87,7 +87,7 @@ let searchService = {
 		let promises = [];
 
 		// fetch results and group and match
-		let spotifySearch =  await Spotify.searchTracks(params.query)
+		let spotifySearch = await Spotify.searchTracks(params.query)
 			.then(function(data) {
 				data.body.tracks.items
 					.map(function(result) {

@@ -6,7 +6,7 @@ import {
 	songSearch
 }
 from '../actions/searchActions';
-
+import Result from '../components/Result';
 import {
 	connect
 }
@@ -26,7 +26,7 @@ class SearchResults extends React.Component {
 		return (
 			<ul>
 				{this.props.searchResults.map((result)=>(
-					<li key={result.spotifyId}>{result.artistName} - {result.songName}</li>
+					<Result data={result}/>
 				))}
 			</ul>
 		);
@@ -44,9 +44,7 @@ function mapStateToProps(state) {
 };
 
 function mapDispatchToProps(dispatch) {
-	return {
-		// songSearch: bindActionCreators(songSearch, dispatch)
-	};
+	return {};
 };
 
 export default connect(

@@ -14,7 +14,6 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<h1> Type in the search box to find a song </h1>
 				<SearchBar/>
 				<SearchResults/>
 			</div>

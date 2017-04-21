@@ -18,6 +18,7 @@ import {
 	bindActionCreators
 }
 from 'redux';
+
 class SearchBar extends React.Component {
 	constructor(props) {
 		super(props);
@@ -49,12 +50,13 @@ class SearchBar extends React.Component {
 	}
 	render() {
 		return (
-			<div>
+			<div className="searchBox">
+
+				<h1> Type in the search box to find a song </h1>
 				<input 
 					placeholder={"enter, song, artist or album"}
 					onChange={(e)=>{
-							this.throttleSearch(e);
-						
+							this.throttleSearch(e);	
 					}}
 					name={"query"}
 				/> 

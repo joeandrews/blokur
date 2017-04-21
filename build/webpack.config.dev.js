@@ -8,26 +8,26 @@ export default {
 	devtool: 'cheap-module-eval-source-map',
 	noInfo: true,
 	entry: {
+
 		'index': [
 			'whatwg-fetch',
-			'./webpack-public-path',
+			'./build/webpack-public-path',
 			'webpack-hot-middleware/client?reload=true',
-			'./../web/'
+			'./web/index.js'
 		],
 	},
 	target: 'web',
 	output: {
-		path: `${__dirname}/src`,
+		path: '/',
 		publicPath: '/',
 		filename: '[name]-bundle.js'
 	},
 	plugins: [
-		new webpack.DefinePlugin(GLOBALS),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoErrorsPlugin(),
 
 		new HtmlWebpackPlugin({
-			template: 'index.ejs',
+			template: 'web/index.ejs',
 			filename: 'index.html',
 			minify: {
 				removeComments: true,

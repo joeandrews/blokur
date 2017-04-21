@@ -10,12 +10,6 @@ from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import routes from './config/routes';
 // require('./favicon.ico');
-import './styles.scss';
-import 'font-awesome/css/font-awesome.css';
-import 'flexboxgrid/css/flexboxgrid.css';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import defaultTheme from './theme-default';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 injectTapEventPlugin();
 let AppRouter = React.createFactory(Router);
 import {
@@ -23,17 +17,20 @@ import {
 }
 from 'react-redux';
 import {
-	createStore
+	createStore, applyMiddleware
 }
 from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import BlokurApp from './reducers/index';
-let store = createStore(PeanutAdmin);
+let store = createStore(BlokurApp, {}, applyMiddleware(
+	thunkMiddleware
+));
 render((
 
-	<MuiThemeProvider
-		muiTheme={getMuiTheme()}
-	>
-		<Provider store={store}>
+	// <MuiThemeProvider
+	// muiTheme={getMuiTheme()}
+	// >
+	<Provider store={store}>
 			{
 				AppRouter({
 					history: browserHistory,
@@ -41,7 +38,7 @@ render((
 				})
 			}
 		</Provider>
-	</MuiThemeProvider>
+	// </MuiThemeProvider>
 
 
 ), document.getElementById('app'));

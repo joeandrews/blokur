@@ -3,10 +3,12 @@ import {
 	combineReducers
 }
 from 'redux';
-import searchReducer from './searchReducer';
+import searchBarReducer from './searchBarReducer';
+import searchResultsReducer from './searchResultsReducer';
 
 const BlokurApp = combineReducers({
-	searchReducer: searchReducer
+	searchBar: searchBarReducer,
+	searchResults:searchResultsReducer
 });
 
 export default BlokurApp;

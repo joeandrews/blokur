@@ -1,6 +1,6 @@
 'use strict';
 
-let returnExactMatch = function(resultHash, result) {
+let returnExactMatch = function(resultsHash, result) {
 
 
 	// this function matches if the songname and artist passed in are equal to the keyed version 
@@ -14,43 +14,50 @@ let returnExactMatch = function(resultHash, result) {
 	let artistName = '';
 
 	// process any descrepancies in the artist /songname format;
-	switch (result.type) {
-		case 'spotify': {
+	switch (result.resultType) {
+		case 'spotify':
+			{
+				artistName = result.artists ? result.artists[0].name : '';
+				songName = result.name;
+				break;
+			}
+		case 'soundcloud':
+			{
 
-			break;
-		}
-		case 'soundcloud':{
+				break;
+			}
+		case 'musixmatch':
+			{
 
-			break;
-		}
-		case 'musixmatch': {
-
-			break;
-		}
+				break;
+			}
 		default:
 			{
 				break;
 			}
 	}
 
-	let testKey = songName.replace(/\s\s+/g, '') + '::' + artist.replace(/\s\s+/g, '');
-
-	if (!!resultHash[testKey]) {
-		resultHash[testKey][result.type] = result;
-	}
-	else {
-		resultHash[testKey] = {
-			[resultType]: result
-		};
+	let testKey = songName.replace(/\s\s+/g, '') + '::' + artistName.replace(/\s\s+/g, '');
+	if (!!resultsHash[testKey]) {
+		resultsHash[testKey][result.resultType] = result;
+	} else {
+		resultsHash[testKey] = {};
+		resultsHash[testKey][result.resultType] = result;
 	}
 
 
 }
 
 let SpotifyWebApi = require('spotify-web-api-node');
-export default {
+let Spotify = new SpotifyWebApi({
+	clientId: '27298916f6384257b24fdf87f84f2430',
+	clientSecret: '06355cd909bd49ce9c9e36ab9f9757c0',
+	redirectUri: 'http://www.example.com/callback'
+});
 
-	search(ctx, next) {
+let searchService = {
+	search: async(ctx, next) => {
+
 		/*
 			this function combines search results from spotify, soundcloud and musix match so we have all the data we require for the frontend ui
 
@@ -75,52 +82,67 @@ export default {
 			]
 
 */
-		let params = ctx.params;
+		let params = ctx.query;
 		let resultsHash = {};
+		let promises = [];
 
 		// fetch results and group and match
-		let spotifyResults = await SpotifyWebApi.searchTracks(params.query).body
-			.map(function(result) {
-				result.resultType = 'spotify';
-				resultMatcher(resultHash, result);
+		let spotifySearch =  await Spotify.searchTracks(params.query)
+			.then(function(data) {
+				data.body.tracks.items
+					.map(function(result) {
+						result.resultType = 'spotify';
+						returnExactMatch(resultsHash, result);
+					});
+			})
+			.catch((err) => {
+				console.log(err);
 			});
 
-		let soundCloudResults = await SoundcloudAPI.search()
+		promises.push(spotifySearch);
 
-			.map(function(result) {
-				result.resultType = 'soundCloud';
-				resultMatcher(resultHash, result);
-			});
 
-		let musixMatchResults = await MusixMatch.search()
-			.map(function(result) {
-				result.resultType = 'musixmatch';
-				resultMatcher(resultHash, result);
-			});
+		// let soundCloudResults = await SoundcloudAPI.search()
+
+		// .map(function(result) {
+		// result.resultType = 'soundCloud';
+		// resultMatcher(resultHash, result);
+		// });
+
+		// let musixMatchResults = await MusixMatch.search()
+		// .map(function(result) {
+		// result.resultType = 'musixmatch';
+		// resultMatcher(resultHash, result);
+		// });
 
 		// we now compare all the results hashes and return valid results
-		let validResults = [];
-		Object.keys(resultHash)
-			.forEach((key)=>{
-				let result = resultHash[key];
+		Promise.all(promises)
+			.then(function() {
 
-				if (result.soundcloud && result.musixmatch && result.spotify) {
-					// this is a valid song and we have all the data we need
-					validResults.push({
-						artistName: key.split('::')[1],
-						songName: key.split('::')[0],
-						soundcloudId: result.soundcloud.id,
-						spotifyId: result.spotify.id,
-						musixmatchId: result.musixmatch.id,
-						cover_art_url: result.spotify.cover_art
+				let validResults = [];
+				Object.keys(resultsHash)
+					.forEach((key) => {
+						let result = resultsHash[key];
+						if (result.spotify) {
+							// this is a valid song and we have all the data we need
+							validResults.push({
+								artistName: key.split('::')[1],
+								songName: key.split('::')[0],
+								// soundcloudId: result.soundcloud.id,
+								spotifyId: result.spotify.id,
+								// musixmatchId: result.musixmatch.id,
+							});
+						}
+
 					});
-				}
 
+				ctx.body = validResults;
+				ctx.status = 200;
+
+				// return next();
 			});
-			
-		ctx.body = validResults
-		ctx.status = 200;
-		return next();
 	}
 
-}
+};
+
+module.exports = searchService;

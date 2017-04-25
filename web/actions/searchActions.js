@@ -27,7 +27,7 @@ function receiveSearchResults(query, json) {
 		type: RECEIVE_SEARCH_RESULTS,
 		query,
 		data: json,
-		receivedAt: Date.now()
+		isError: false
 	}
 }
 
@@ -35,8 +35,8 @@ function errorReceivingSearchResults(query, err) {
 	return {
 		type: ERROR_RECEIVING_SEARCH_RESULTS,
 		query,
-		data: [err],
-		receivedAt: Date.now()
+		data: [],
+		isError: true
 	}
 }
 
@@ -44,12 +44,12 @@ function fetchSearchResults(query) {
 	return dispatch => {
 		dispatch(requestSearchResults(query));
 		return API.xhrRequest({
-				method: 'get',
-				path: '/search?query=' + encodeURIComponent(query),
-			})
+			method: 'get',
+			path: '/search?query=' + encodeURIComponent(query),
+		})
 			.then(response => response.json())
-			.then(json => dispatch(receiveSearchResults(query, json)));
-			.catch(err => dispatch(errorReceivingSearchResults(query, error)));
+			.then(json => dispatch(receiveSearchResults(query, json)))
+			.catch(err => dispatch(errorReceivingSearchResults(query, err)));
 	}
 }
 

@@ -4,7 +4,6 @@ import React, {
 from 'react';
 import SearchBar from './../components/SearchBar';
 import SearchResults from './../components/SearchResults';
-import Api from './../utils/API.js';
 
 class App extends React.Component {
 	constructor(props) {

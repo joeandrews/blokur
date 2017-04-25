@@ -14,14 +14,14 @@ body {
 	left: 34px;
 	background: white;
 	height: auto;
-	padding-top: 34px;	
+	padding-top: 34px;
 	top: 0px;
 
 	h1 {
 
 		font-family: 'Noto Sans', sans-serif;
 		display: block;
-		
+
 	}
 	input {
 		outline: none;
@@ -31,7 +31,7 @@ body {
 		background: #c42847;
 		color: white;
 		border: none;
-		width: calc(50% - 12px);
+		width: calc(45% - 12px);
 		padding: 12px;
 		position: relative;
 	}
@@ -46,11 +46,12 @@ ul {
 
 	list-style-type:none !important;
 	padding: 0px;
-	width: 50%;
-	margin-top: 5em;
+	width: 45%;
+	margin-top: 6.25em;
 	left: 34px;
 	position: absolute;
-  z-index: -1;
+	z-index: -1;
+
 	li {
 		margin: 10px 0px;
 		display: flex;
@@ -61,13 +62,232 @@ ul {
 		box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.1);
 		transition: all 0.3s ease;
 		width: calc(100% - 16px);
-		img {
-			margin-right: 35px;
+		height: 70px;
+		.artistText {
+			left: 90px;
+			position: absolute;
 		}
-	 &:hover {
-		background: #c42847;
-		color: white;
+		.controlIcon {
+			display: flex;
+			align-content: center;
+			justify-content: flex-end;
+			position: absolute;
+			left: 15px;
+			align-items: center;
+			background-color: #c42847;
+			mask-repeat: no-repeat;
+			mask-size: contain;
+			mask-position: 100%;
+			margin-right: 35px;
+			height: 50px;
+			width: 50px;
+			mask-image: url("http://localhost:3000/images/play.svg");
+			&.pause {
 
-	 }
+				mask-image: url("http://localhost:3000/images/pause.svg");
+			}
+		}
+		&:hover {
+			background: #c42847;
+			color: white;
+			.controlIcon {
+
+				background: white;
+			}
+		}
+	}
+}
+.artistInfoPage {
+	display: flex;
+	justifiy-content: space-around;
+	align-items: flex-start;
+	width: 100%;
+	margin-top: 5em;
+}
+.artistInfo {
+	padding: 34px;
+	width: calc(100% - 34px);
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background: white;
+	box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.1);
+	z-index: 110;
+	.artistInfoInner {
+		margin-left: 220px;
+		height: 100%;
+		h3 {
+			margin: 0px;
+			font-weight: 700;
+		}
+		p {
+			margin: 1em 0em;
+			font-size: 18px;
+		}
+
+	}
+	.tags {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		width: 100%;
+		margin-top: 17px;
+		.tag {
+
+			font-size: 12px;
+			border: 2px solid;
+			padding: 8px 10px;
+			margin-right: 10px;
+		}
+	}
+	.artistImage {
+
+		position: absolute;
+		left: 34px;
+		top: 34px;
+
+		.controlIcon {
+			position: absolute;
+			left: 0px;
+
+			display: flex;
+			align-content: center;
+			justify-content: center;
+			position: absolute;
+			align-items: center;
+			background-color: #fff;
+			mask-repeat: no-repeat;
+			mask-size: 50%;
+			mask-position: 50%;
+			height: 100%;
+			width: 100%;
+			mask-image: url("http://localhost:3000/images/play.svg");
+			&.pause {
+
+				mask-image: url("http://localhost:3000/images/pause.svg");
+			}
+		}
+		img {
+			width: 200px;
+		}
+	}
+}
+
+.trackRecommendations {
+	width: 50%;
+
+	// margin-top: 8em;
+	.trackRecommendationsInner {
+		margin-top: -1em !important;
+		z-index: 100;
+		padding-top: 5px;
+	}
+}
+.relatedArtists {	
+	width: 45%;
+	position: relative;
+	.relatedArtistsInner {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		margin-top: -1em !important;
+		width: 100%;
+		li {
+			width: 130px;
+			flex-wrap: wrap;
+			padding: 0px;
+			margin: 5px;
+			height: 130px;
+			background: #c42847;
+			border-radius: 50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: relative;
+		}
+		img {
+			width: 120px;
+			height: 120px;
+			border-radius: 50%;
+		}
+		.artistText {
+			opacity: 0;
+			background: rgba(0,0,0,0.8);
+			color: white;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: opacity 0.3s ease;
+			position: absolute;
+			border-radius: 50%;
+			left: 0px;
+			top: 0px;
+			width: 100%;
+			height: 100%;
+			&:hover {
+				opacity: 1
+			}
+		}
+	}
+}
+
+.loader,
+.loader:before,
+.loader:after {
+	background: #c42847;
+	-webkit-animation: load1 1s infinite ease-in-out;
+	animation: load1 1s infinite ease-in-out;
+	width: 1em;
+	height: 4em;
+}
+.loader {
+	color: #c42847;
+	text-indent: -9999em;
+	margin: 88px auto;
+	position: relative;
+	font-size: 11px;
+	-webkit-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	transform: translateZ(0);
+	-webkit-animation-delay: -0.16s;
+	animation-delay: -0.16s;
+}
+.loader:before,
+.loader:after {
+	position: absolute;
+	top: 0;
+	content: '';
+}
+.loader:before {
+	left: -1.5em;
+	-webkit-animation-delay: -0.32s;
+	animation-delay: -0.32s;
+}
+.loader:after {
+	left: 1.5em;
+}
+@-webkit-keyframes load1 {
+	0%,
+	80%,
+	100% {
+		box-shadow: 0 0;
+		height: 4em;
+	}
+	40% {
+		box-shadow: 0 -2em;
+		height: 5em;
+	}
+}
+@keyframes load1 {
+	0%,
+	80%,
+	100% {
+		box-shadow: 0 0;
+		height: 4em;
+	}
+	40% {
+		box-shadow: 0 -2em;
+		height: 5em;
 	}
 }

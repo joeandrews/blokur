@@ -1,8 +1,6 @@
+/*globals Headers*/
 'use strict';
-import {
-	browserHistory
-}
-from 'react-router';
+
 import 'whatwg-fetch';
 
 class API {
@@ -13,7 +11,7 @@ class API {
 		headers.append('content-type', 'application/json');
 		let deffered = new Promise((resolve, reject) => {
 
-			fetch('http://localhost:8081' + data.path, {
+			fetch('http://localhost:8081/api' + data.path, {
 					method: data.method,
 					headers: headers,
 					mode: 'cors',

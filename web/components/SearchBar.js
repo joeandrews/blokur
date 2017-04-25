@@ -52,7 +52,8 @@ class SearchBar extends React.Component {
 		return (
 			<div className="searchBox">
 
-				<h1> Type in the search box to find a song </h1>
+				<h1> Type in the search box to begin </h1>
+				<p> Click to play, or explore the artist</p>
 				<input 
 					placeholder={"enter, song, artist or album"}
 					onChange={(e)=>{

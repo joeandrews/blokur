@@ -26,7 +26,7 @@ class SearchResults extends React.Component {
 		return (
 			<ul>
 				{this.props.searchResults.map((result)=>(
-					<Result data={result}/>
+					<Result key={result.spotifyId} data={result}/>
 				))}
 			</ul>
 		);

@@ -2,7 +2,7 @@
 
 Sample app for blokur. This app allows the user to search the spotify api for songs, play previews and explore related music.
 
-![](/images/demo.gif)
+![](web/images/demo.gif)
 ----------
 
 
